@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sismos del mundo | p5.js</title>
+  <style>
+    :root { --bg:#080b1c; --panel:rgba(15,20,47,.92); --line:#28305a; --text:#f5f7ff; --muted:#aeb7d8; --accent:#ffd166; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 50% 0%,#18204b 0%,var(--bg) 55%); color:var(--text); font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif; }
+    .app { max-width:1200px; margin:auto; padding:18px; }
+    header { display:flex; justify-content:space-between; gap:16px; align-items:flex-end; margin-bottom:14px; }
+    h1 { margin:0; font-size:clamp(1.35rem,3vw,2.1rem); letter-spacing:.02em; }
+    .subtitle { color:var(--muted); margin:.35rem 0 0; font-size:.92rem; }
+    .status { font-size:.82rem; color:#bfe8d0; text-align:right; }
+    .panel { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px 14px; box-shadow:0 12px 35px rgba(0,0,0,.22); }
+    .controls { display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; margin-bottom:14px; }
+    label { color:var(--muted); font-size:.86rem; }
+    input[type=range] { accent-color:var(--accent); width:150px; vertical-align:middle; }
+    select, button { border:1px solid #4e588b; border-radius:8px; background:#171d40; color:var(--text); padding:7px 10px; cursor:pointer; }
+    button:hover, select:hover { background:#202957; }
+    .value { color:var(--accent); font-weight:700; min-width:28px; display:inline-block; }
+    #canvas-holder { position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--line); background:#0a0d20; }
+    canvas { display:block; width:100% !important; height:auto !important; }
+    .legend { display:flex; flex-wrap:wrap; gap:12px; color:var(--muted); font-size:.8rem; margin-top:10px; }
+    .dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:4px; }
+    .info { margin-top:14px; min-height:72px; color:var(--muted); line-height:1.45; font-size:.9rem; }
+    .info strong { color:var(--text); }
+    footer { color:#7f89ad; font-size:.74rem; margin-top:12px; line-height:1.45; }
+    @media (max-width:650px) { header { display:block; } .status { text-align:left; margin-top:8px; } .controls { gap:10px; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div><h1>Sismos del mundo</h1><p class="subtitle">Datos abiertos del USGS convertidos en una animación audiovisual.</p></div>
+      <div class="status" id="status">Cargando datos…</div>
+    </header>
+    <section class="panel controls" aria-label="Controles de la visualización">
+      <label>Magnitud mínima <input id="mag-slider" type="range" min="2.5" max="8" step="0.1" value="5" /> <span class="value" id="mag-value">5.0</span></label>
+      <label>Onda <select id="wave-select"><option value="sine">Seno</option><option value="triangle">Triangular</option><option value="square">Cuadrada</option><option value="sawtooth">Diente de sierra</option></select></label>
+      <button id="sound-button" type="button">Activar sonido</button>
+      <button id="pause-button" type="button">Pausar</button>
+      <button id="restart-button" type="button">Reiniciar ciclo</button>
+    </section>
+    <div id="canvas-holder"></div>
+    <div class="legend"><span><i class="dot" style="background:#ffd166"></i>superficial</span><span><i class="dot" style="background:#b05cff"></i>profundo</span><span>tamaño = magnitud</span><span>posición horizontal = longitud</span></div>
+    <section class="panel info" id="info">Pasa el cursor sobre un sismo para consultar su lugar, magnitud y profundidad.</section>
+    <footer>Fuente: U.S. Geological Survey, Earthquake Hazards Program. Feed: <span id="source"></span>. Visualización educativa elaborada con p5.js.</footer>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/addons/p5.sound.min.js"></script>
+  <script src="sketch.js"></script>
+</body>
+</html>
